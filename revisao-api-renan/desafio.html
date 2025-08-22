@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio pro enzinho</title>
+</head>
+<body>
+    <h1>Digite aqui seu CEP:</h1>
+    <input type="text" id="cep" placeholder="Digite aqui seu cep:">
+    <button onclick="buscarCEP()">Buscar</button>
+    <span id="resultado"></span>
+
+    <script>
+        function buscarCEP(){
+            const cep = document.getElementById(cep).value;
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(res => res.json())
+                .then(json => {
+                    
+                })
+
+
+
+
+        }
+    </script>
+
+
+</body>
+</html>
