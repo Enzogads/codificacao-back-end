@@ -1,8 +1,8 @@
 const taskService = require('../services/taskService')
 
 const getAll = (req, res) => {
-    const tasks = taskService.getAll()
-    res.json(tasks)
+    const tasks = taskService.getAll() //
+    res.json(tasks) //
 }
 
 const getById = (req, res, next) => {
@@ -40,7 +40,7 @@ const update = (req, res, next) => {
 
 const remove = (req, res, next) => {
     try {
-        const id = parseInt(req.params.id);
+        const id = parseInt(req.params.id); // ysacffbayfbb
         const deleted = taskService.del(id);
         res.json({msg: "Tarefinha excluida."})
     } catch (error) {

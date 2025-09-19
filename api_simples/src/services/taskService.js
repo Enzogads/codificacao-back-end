@@ -1,10 +1,10 @@
-const express = require('express')
+const express = require('express') //  Cria uma constante que recebe o express.
 
 let tasks = [
 { id: 1, title: "Estudar apis", done: false},
 { id: 2, title: "Praticar Docker", done: true},
 { id: 3, title: "Ronal", done: false},
-]
+] // Array de tarefas, com objetos.
 
 // Regras: de negocio:
 // O título é obrigatório
@@ -13,21 +13,33 @@ let tasks = [
 // N é permitido atualizar ou excluir uma tarefa inexistente
 // N é permitido excluir uma tarefa concluída
 
-const getAll = () => tasks;
+const getAll = () => tasks; // constante para pegar todas as tarefas.
 
 const getById = (id) => {
-    const task = tasks.find(t => t.id === id)
+    // variável para buscar uma tarefa no array específica pelo id.
+
+    const task = tasks.find(t => t.id === id) // cria uma constante que entra no array tasks e percorre o array aplicando uma função, cada item percorrido é o representado por "t", a função no caso é verificar se o id da tarefa é o estritamente igual ao id que está sendo requisitado.
+
     if (!task) throw { status: 404, message: "Tarefa não encontrada"
-    }
-    return task
+    } //se ele não e ncontrar, ele faz o tratamento de erro, com o status 404 - não encontrado.
+
+    return task // se ele encontrar, ele retorna a tarefa que está sendo pedida
 }
 
 const update = (id, {title, done}) => {
-    const task = getById(id);
+    // arrow function que recebe o id e o objeto que contém dois elementos "title e done", com a finalidade de atuallizar uma tarefa.
+
+    const task = getById(id); // aqui ele recebe a tarefa que está sendo pedida.
 
     if(title){
-        const  exists = task.some(
+        //se title...
+        const exists = task.some(
+            //para verificar se pelo menos um elemento do array satisfaz uma condição específica definida numa função de callback.
+            //ou seja, criamos a constante exists para armazenar o valor de algum elemento que existe (se ele existir)
+
             t => t.title.toLowerCase() === title.toLowerCase() && t.id !== id
+            
+
         );
 
         if(exists)
