@@ -1,6 +1,7 @@
 import express from 'express'
 import mysql from 'mysql2/promise'
-const app = express();
+const app = express()
+app.use(express.json());
 const pool = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -25,6 +26,61 @@ app.get("/usuarios/:id", async (req, res) => {
         'SELECT * FROM usuario WHERE id=?', id
     );
     res.send(results)
+})
+
+app.post("/usuarios", async (req, res)=> {
+    try {
+        
+        const { body } = req;
+        
+        const [results] = await pool.query(
+        'INSERT INTO usuario (nome,idade) VALUES (?,?)',
+        [body.nome,
+        body.idade]
+        );
+
+        const [usuarioCriado] = await pool.query(
+            "Select * from usuario WHERE id=?",
+            results.insertId
+
+        ) 
+
+        return res.status(201).json(usuarioCriado)
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+})
+
+app.delete("/usuarios/:id", async (req, res)=>{
+
+    try {
+        const {id} = req.params;
+        const [results] = await pool.query(
+            "DELETE FROM usuario WHERE id=?",
+            id
+        );
+        res.status(200).send("Usuário deletado!", results)
+    } catch (error) {
+        console.log(error)
+    }
+
+    
+})
+
+app.put("/usuarios/:id", async(req,res) => {
+    try {
+        const { id } = req.params;
+        const { body } = req
+        const [results] = await pool.query(
+            "UPDATE usuario SET `nome` = ?, `idade` = ? WHERE id = ?",
+            [body.nome, body.idade, id]
+        )
+        res.status(200).send("Usuário atualizado", results)
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 app.listen(3000, () => {
